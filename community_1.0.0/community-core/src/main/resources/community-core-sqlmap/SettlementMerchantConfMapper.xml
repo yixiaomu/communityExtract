@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="SettlementMerchantConf" >
+  <resultMap id="BaseResultMap" type="cn.creditease.pay.settlement.core.entity.SettlementMerchantConf" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="biz_type" property="bizType" jdbcType="TINYINT" />
+    <result column="merchant_code" property="merchantCode" jdbcType="VARCHAR" />
+    <result column="merchant_name" property="merchantName" jdbcType="VARCHAR" />
+    <result column="settlement_type" property="settlementType" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, biz_type, merchant_code, merchant_name, settlement_type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from settlement_merchant_conf
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="getAll" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from settlement_merchant_conf
+  </select>
+  
+  <select id="queryMerchantConf" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from settlement_merchant_conf
+    where merchant_code = #{0}
+          and biz_type = #{1}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from settlement_merchant_conf
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.creditease.pay.settlement.core.entity.SettlementMerchantConf" >
+    insert into settlement_merchant_conf (id, biz_type, merchant_code, 
+      merchant_name, settlement_type
+      )
+    values (#{id,jdbcType=BIGINT}, #{bizType,jdbcType=TINYINT}, #{merchantCode,jdbcType=VARCHAR}, 
+      #{merchantName,jdbcType=VARCHAR}, #{settlementType,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.creditease.pay.settlement.core.entity.SettlementMerchantConf" >
+    insert into settlement_merchant_conf
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="bizType != null" >
+        biz_type,
+      </if>
+      <if test="merchantCode != null" >
+        merchant_code,
+      </if>
+      <if test="merchantName != null" >
+        merchant_name,
+      </if>
+      <if test="settlementType != null" >
+        settlement_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="bizType != null" >
+        #{bizType,jdbcType=TINYINT},
+      </if>
+      <if test="merchantCode != null" >
+        #{merchantCode,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantName != null" >
+        #{merchantName,jdbcType=VARCHAR},
+      </if>
+      <if test="settlementType != null" >
+        #{settlementType,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.creditease.pay.settlement.core.entity.SettlementMerchantConf" >
+    update settlement_merchant_conf
+    <set >
+      <if test="bizType != null" >
+        biz_type = #{bizType,jdbcType=TINYINT},
+      </if>
+      <if test="merchantCode != null" >
+        merchant_code = #{merchantCode,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantName != null" >
+        merchant_name = #{merchantName,jdbcType=VARCHAR},
+      </if>
+      <if test="settlementType != null" >
+        settlement_type = #{settlementType,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.creditease.pay.settlement.core.entity.SettlementMerchantConf" >
+    update settlement_merchant_conf
+    set biz_type = #{bizType,jdbcType=TINYINT},
+      merchant_code = #{merchantCode,jdbcType=VARCHAR},
+      merchant_name = #{merchantName,jdbcType=VARCHAR},
+      settlement_type = #{settlementType,jdbcType=TINYINT},
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

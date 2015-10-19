@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ReleaseOrder" >
+  <resultMap id="BaseResultMap" type="cn.creditease.pay.settlement.core.entity.ReleaseOrder" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="biz_code" property="bizCode" jdbcType="VARCHAR" />
+    <result column="merchant_code" property="merchantCode" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="point_order_no" property="pointOrderNo" jdbcType="VARCHAR" />
+    <result column="release_no" property="releaseNo" jdbcType="VARCHAR" />
+    <result column="release_time" property="releaseTime" jdbcType="TIMESTAMP" />
+    <result column="release_type" property="releaseType" jdbcType="TINYINT" />
+    <result column="points" property="points" jdbcType="INTEGER" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="recycle_status" property="recycleStatus" jdbcType="TINYINT" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="err_code" property="errCode" jdbcType="VARCHAR" />
+    <result column="err_msg" property="errMsg" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="finish_time" property="finishTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, biz_code, merchant_code, user_id, point_order_no, release_no, release_time, release_type, 
+    points, source, recycle_status, status, err_code, err_msg, create_time, update_time, 
+    finish_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.creditease.pay.settlement.core.entity.ReleaseOrder" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from release_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="queryOrderList" resultMap="BaseResultMap" parameterType="Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from release_order
+    where merchant_code = #{merchantCode}
+    and release_time &gt;= #{beginTime} 
+    and release_time &lt;= #{endTime}
+    and recycle_status != 2
+    and status = 2
+    limit #{start},#{total}
+  </select>
+  
+  <select id="queryOrderNum" resultType="int" parameterType="Map" >
+    select 
+    count(*)
+    from release_order
+    where merchant_code = #{merchantCode}
+    and release_time &gt;= #{beginTime} 
+    and release_time &lt;= #{endTime}
+    and recycle_status != 2
+    and status = 2
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from release_order
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.creditease.pay.settlement.core.entity.ReleaseOrder" >
+    delete from release_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.creditease.pay.settlement.core.entity.ReleaseOrder" >
+    insert into release_order (id, biz_code, merchant_code, 
+      user_id, point_order_no, release_no, 
+      release_time, release_type, points, 
+      source, recycle_status, status, 
+      err_code, err_msg, create_time, 
+      update_time, finish_time)
+    values (#{id,jdbcType=BIGINT}, #{bizCode,jdbcType=VARCHAR}, #{merchantCode,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=VARCHAR}, #{pointOrderNo,jdbcType=VARCHAR}, #{releaseNo,jdbcType=VARCHAR}, 
+      #{releaseTime,jdbcType=TIMESTAMP}, #{releaseType,jdbcType=TINYINT}, #{points,jdbcType=INTEGER}, 
+      #{source,jdbcType=VARCHAR}, #{recycleStatus,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, 
+      #{errCode,jdbcType=VARCHAR}, #{errMsg,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{finishTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.creditease.pay.settlement.core.entity.ReleaseOrder" >
+    insert into release_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="bizCode != null" >
+        biz_code,
+      </if>
+      <if test="merchantCode != null" >
+        merchant_code,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="pointOrderNo != null" >
+        point_order_no,
+      </if>
+      <if test="releaseNo != null" >
+        release_no,
+      </if>
+      <if test="releaseTime != null" >
+        release_time,
+      </if>
+      <if test="releaseType != null" >
+        release_type,
+      </if>
+      <if test="points != null" >
+        points,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="recycleStatus != null" >
+        recycle_status,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="errCode != null" >
+        err_code,
+      </if>
+      <if test="errMsg != null" >
+        err_msg,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="finishTime != null" >
+        finish_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="bizCode != null" >
+        #{bizCode,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantCode != null" >
+        #{merchantCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="pointOrderNo != null" >
+        #{pointOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseNo != null" >
+        #{releaseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseTime != null" >
+        #{releaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="releaseType != null" >
+        #{releaseType,jdbcType=TINYINT},
+      </if>
+      <if test="points != null" >
+        #{points,jdbcType=INTEGER},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="recycleStatus != null" >
+        #{recycleStatus,jdbcType=TINYINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="errCode != null" >
+        #{errCode,jdbcType=VARCHAR},
+      </if>
+      <if test="errMsg != null" >
+        #{errMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishTime != null" >
+        #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.creditease.pay.settlement.core.entity.ReleaseOrder" resultType="java.lang.Integer" >
+    select count(*) from release_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update release_order
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.bizCode != null" >
+        biz_code = #{record.bizCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.merchantCode != null" >
+        merchant_code = #{record.merchantCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pointOrderNo != null" >
+        point_order_no = #{record.pointOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.releaseNo != null" >
+        release_no = #{record.releaseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.releaseTime != null" >
+        release_time = #{record.releaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.releaseType != null" >
+        release_type = #{record.releaseType,jdbcType=TINYINT},
+      </if>
+      <if test="record.points != null" >
+        points = #{record.points,jdbcType=INTEGER},
+      </if>
+      <if test="record.source != null" >
+        source = #{record.source,jdbcType=VARCHAR},
+      </if>
+      <if test="record.recycleStatus != null" >
+        recycle_status = #{record.recycleStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.errCode != null" >
+        err_code = #{record.errCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.errMsg != null" >
+        err_msg = #{record.errMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.finishTime != null" >
+        finish_time = #{record.finishTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update release_order
+    set id = #{record.id,jdbcType=BIGINT},
+      biz_code = #{record.bizCode,jdbcType=VARCHAR},
+      merchant_code = #{record.merchantCode,jdbcType=VARCHAR},
+      user_id = #{record.userId,jdbcType=VARCHAR},
+      point_order_no = #{record.pointOrderNo,jdbcType=VARCHAR},
+      release_no = #{record.releaseNo,jdbcType=VARCHAR},
+      release_time = #{record.releaseTime,jdbcType=TIMESTAMP},
+      release_type = #{record.releaseType,jdbcType=TINYINT},
+      points = #{record.points,jdbcType=INTEGER},
+      source = #{record.source,jdbcType=VARCHAR},
+      recycle_status = #{record.recycleStatus,jdbcType=TINYINT},
+      status = #{record.status,jdbcType=TINYINT},
+      err_code = #{record.errCode,jdbcType=VARCHAR},
+      err_msg = #{record.errMsg,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      finish_time = #{record.finishTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.creditease.pay.settlement.core.entity.ReleaseOrder" >
+    update release_order
+    <set >
+      <if test="bizCode != null" >
+        biz_code = #{bizCode,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantCode != null" >
+        merchant_code = #{merchantCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="pointOrderNo != null" >
+        point_order_no = #{pointOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseNo != null" >
+        release_no = #{releaseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="releaseTime != null" >
+        release_time = #{releaseTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="releaseType != null" >
+        release_type = #{releaseType,jdbcType=TINYINT},
+      </if>
+      <if test="points != null" >
+        points = #{points,jdbcType=INTEGER},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="recycleStatus != null" >
+        recycle_status = #{recycleStatus,jdbcType=TINYINT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="errCode != null" >
+        err_code = #{errCode,jdbcType=VARCHAR},
+      </if>
+      <if test="errMsg != null" >
+        err_msg = #{errMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishTime != null" >
+        finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.creditease.pay.settlement.core.entity.ReleaseOrder" >
+    update release_order
+    set biz_code = #{bizCode,jdbcType=VARCHAR},
+      merchant_code = #{merchantCode,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      point_order_no = #{pointOrderNo,jdbcType=VARCHAR},
+      release_no = #{releaseNo,jdbcType=VARCHAR},
+      release_time = #{releaseTime,jdbcType=TIMESTAMP},
+      release_type = #{releaseType,jdbcType=TINYINT},
+      points = #{points,jdbcType=INTEGER},
+      source = #{source,jdbcType=VARCHAR},
+      recycle_status = #{recycleStatus,jdbcType=TINYINT},
+      status = #{status,jdbcType=TINYINT},
+      err_code = #{errCode,jdbcType=VARCHAR},
+      err_msg = #{errMsg,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      finish_time = #{finishTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

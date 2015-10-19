@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="PointRepayment" >
+  <resultMap id="BaseResultMap" type="cn.creditease.pay.settlement.core.entity.PointRepayment" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="merchant_code" property="merchantCode" jdbcType="VARCHAR" />
+    <result column="settlement_no" property="settlementNo" jdbcType="VARCHAR" />
+    <result column="request_time" property="requestTime" jdbcType="TIMESTAMP" />
+    <result column="settle_points" property="settlePoints" jdbcType="INTEGER" />
+    <result column="settle_amount" property="settleAmount" jdbcType="DECIMAL" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="finish_time" property="finishTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="err_code" property="errCode" jdbcType="VARCHAR" />
+    <result column="err_msg" property="errMsg" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, merchant_code, settlement_no, request_time, settle_points, settle_amount, create_time, 
+    update_time, finish_time, status, err_code, err_msg
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from point_repayment
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="queryBySettlementNo" resultMap="BaseResultMap" parameterType="Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from point_repayment
+    where settlement_no = #{0} 
+    and merchant_code = #{1}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from point_repayment
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.creditease.pay.settlement.core.entity.PointRepayment" >
+    insert into point_repayment (id, merchant_code, settlement_no, 
+      request_time, settle_points, settle_amount, 
+      create_time, update_time, finish_time, 
+      status, err_code, err_msg
+      )
+    values (#{id,jdbcType=BIGINT}, #{merchantCode,jdbcType=VARCHAR}, #{settlementNo,jdbcType=VARCHAR}, 
+      #{requestTime,jdbcType=TIMESTAMP}, #{settlePoints,jdbcType=INTEGER}, #{settleAmount,jdbcType=DECIMAL}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{finishTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=TINYINT}, #{errCode,jdbcType=VARCHAR}, #{errMsg,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.creditease.pay.settlement.core.entity.PointRepayment" >
+    insert into point_repayment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="merchantCode != null" >
+        merchant_code,
+      </if>
+      <if test="settlementNo != null" >
+        settlement_no,
+      </if>
+      <if test="requestTime != null" >
+        request_time,
+      </if>
+      <if test="settlePoints != null" >
+        settle_points,
+      </if>
+      <if test="settleAmount != null" >
+        settle_amount,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="finishTime != null" >
+        finish_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="errCode != null" >
+        err_code,
+      </if>
+      <if test="errMsg != null" >
+        err_msg,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="merchantCode != null" >
+        #{merchantCode,jdbcType=VARCHAR},
+      </if>
+      <if test="settlementNo != null" >
+        #{settlementNo,jdbcType=VARCHAR},
+      </if>
+      <if test="requestTime != null" >
+        #{requestTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="settlePoints != null" >
+        #{settlePoints,jdbcType=INTEGER},
+      </if>
+      <if test="settleAmount != null" >
+        #{settleAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishTime != null" >
+        #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="errCode != null" >
+        #{errCode,jdbcType=VARCHAR},
+      </if>
+      <if test="errMsg != null" >
+        #{errMsg,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.creditease.pay.settlement.core.entity.PointRepayment" >
+    update point_repayment
+    <set >
+      <if test="merchantCode != null" >
+        merchant_code = #{merchantCode,jdbcType=VARCHAR},
+      </if>
+      <if test="settlementNo != null" >
+        settlement_no = #{settlementNo,jdbcType=VARCHAR},
+      </if>
+      <if test="requestTime != null" >
+        request_time = #{requestTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="settlePoints != null" >
+        settle_points = #{settlePoints,jdbcType=INTEGER},
+      </if>
+      <if test="settleAmount != null" >
+        settle_amount = #{settleAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishTime != null" >
+        finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="errCode != null" >
+        err_code = #{errCode,jdbcType=VARCHAR},
+      </if>
+      <if test="errMsg != null" >
+        err_msg = #{errMsg,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <update id="updateRepayment" parameterType="Map" >
+    update point_repayment
+    <set >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        finish_time = #{finishTime,jdbcType=TIMESTAMP},
+        status = #{status,jdbcType=TINYINT},
+        err_code = #{errCode,jdbcType=VARCHAR},
+        err_msg = #{errMsg,jdbcType=VARCHAR},
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+    and status != 2
+  </update>
+  
+  <update id="updateRepaymentBySuccess" parameterType="Map" >
+    update point_repayment
+    <set >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        finish_time = #{finishTime,jdbcType=TIMESTAMP},
+        status = #{status,jdbcType=TINYINT},
+        err_code = #{errCode},
+        err_msg = #{errMsg},
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+    and status != 2
+  </update>
+  
+  <update id="updateRepaymentByFailure" parameterType="Map" >
+    update point_repayment
+    <set >
+        update_time = #{updateTime},
+        status = #{status},
+        err_code = #{errCode},
+        err_msg = #{errMsg},
+    </set>
+    where id = #{id}
+    and status != 2
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="cn.creditease.pay.settlement.core.entity.PointRepayment" >
+    update point_repayment
+    set merchant_code = #{merchantCode,jdbcType=VARCHAR},
+      settlement_no = #{settlementNo,jdbcType=VARCHAR},
+      request_time = #{requestTime,jdbcType=TIMESTAMP},
+      settle_points = #{settlePoints,jdbcType=INTEGER},
+      settle_amount = #{settleAmount,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=TINYINT},
+      err_code = #{errCode,jdbcType=VARCHAR},
+      err_msg = #{errMsg,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
