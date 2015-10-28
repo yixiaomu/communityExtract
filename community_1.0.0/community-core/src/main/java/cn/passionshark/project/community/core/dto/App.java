@@ -1,5 +1,8 @@
 package cn.passionshark.project.community.core.dto;
 
-public class App {
+import java.util.ArrayList;
+import java.util.List;
 
+public class App {
+	List<String> list =new ArrayList<String>();
 }

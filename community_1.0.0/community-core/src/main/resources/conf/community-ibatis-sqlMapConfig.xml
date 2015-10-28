@@ -25,13 +25,7 @@
 		</typeHandlers> -->
 
 	<mappers>
-		
- 	    <mapper resource="settlement-core-sqlmap/SettlementMerchantConfMapper.xml"/>
- 	    <mapper resource="settlement-core-sqlmap/PointSettlementOrderMapper.xml"/>
- 	    <mapper resource="settlement-core-sqlmap/PointSettlementDetailMapper.xml"/>
-	    <mapper resource="settlement-core-sqlmap/SettlementSerialMapper.xml"/>
-	    <mapper resource="settlement-core-sqlmap/PointRepaymentMapper.xml"/>
-	    <mapper resource="settlement-core-sqlmap/RecycleOrderMapper.xml"/>
-	    <mapper resource="settlement-core-sqlmap/ReleaseOrderMapper.xml"/>
+ 	    <mapper resource="community-core-sqlmap/CommunitySerialMapper.xml"/>
+ 	    <mapper resource="community-core-sqlmap/UserInfoMapper.xml"/>
 	</mappers>
 </configuration>
