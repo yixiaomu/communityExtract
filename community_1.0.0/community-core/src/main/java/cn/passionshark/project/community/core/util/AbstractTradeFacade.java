@@ -8,6 +8,7 @@ import cn.passionshark.project.community.api.exception.CommunityException;
 import cn.passionshark.project.community.common.log.Logger;
 import cn.passionshark.project.community.common.log.LoggerFactory;
 import cn.passionshark.project.community.common.util.StringUtil;
+import cn.passionshark.project.community.config.Config;
 import cn.passionshark.project.community.core.dto.BaseCommunityRequestDto;
 import cn.passionshark.project.community.core.dto.BaseCommunityResponseDto;
 
@@ -28,6 +29,8 @@ import cn.passionshark.project.community.core.dto.BaseCommunityResponseDto;
 public abstract class AbstractTradeFacade {
     private static final Logger logger = LoggerFactory.getLogger("TRADE", AbstractTradeFacade.class);
 
+    @Autowired
+    private Config config;
 
     /**
      * Callback interface for trade business.
@@ -96,11 +99,10 @@ public abstract class AbstractTradeFacade {
         }
 
         // 2. merchant access
-        String securityKey = null ;//= merchantInfoService.accessMerchant(tradeRequestDto.getMerchantCode(),
-//                tradeRequestDto.getBizCode());
-//        if (StringUtil.isEmpty(securityKey)) {
-////            throw new CommunityException(ExceptionEnum.MERCHANT_SECURITY_KEY_ERR);
-//        }
+        String securityKey = config.getCommunityKey();
+        if (StringUtil.isEmpty(securityKey)) {
+            throw new CommunityException(ExceptionEnum.APP_SECURITY_KEY_ERR);
+        }
 
         // 3. sign
         if (!SignUtil.checkSign(CommunityContext.getSignedSource(), tradeRequestDto.getSign(), securityKey)) {
